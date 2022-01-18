@@ -1,0 +1,16 @@
+{%- extends "bootstrap/base.html" %}
+{% block title %}SSIS{% endblock %}
+{% block metas %}
+<meta name="csrf-token" content="{{ csrf_token() }}">
+{% endblock %}
+{% block head %}
+{{super()}}
+
+{%- endblock %}
+
+{% block styles -%}
+    {{super()}}
+
+
+
+{% endblock %}
