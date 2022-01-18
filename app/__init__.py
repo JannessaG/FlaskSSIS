@@ -16,6 +16,7 @@ def create_app(test_config=None):
         MYSQL_DATABASE=DB_NAME,
         MYSQL_HOST=DB_HOST,
         #BOOTSTRAP_SERVE_LOCAL=BOOTSTRAP_SERVE_LOCAL
+     )
 
     bootstrap.init_app(app)
     mysql.init_app(app)

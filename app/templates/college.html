@@ -1,0 +1,81 @@
+{%- extends "layouts/master_layout.html" %}
+
+{# Loads some of the macros included with Flask-Bootstrap. We are using the
+   utils module here to automatically render Flask's flashed messages in a
+   bootstrap friendly manner #}
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+{{super()}}
+ <style>
+      body
+      {
+        background-repeat: :norepeat;
+        background=atatched: fixed;
+        background-size: cover;
+        background-image:url({{url_for('static',filename='images/wp4720655.jpg')}})
+      }
+  </style>
+
+        <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header"> 
+        </div>
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="{{url_for('colleges.maincollege')}}">Colleges</a></li>
+              </ul>
+            
+        </div>
+      </nav>
+
+      <div class="container">
+    <div class="well">
+    <h1 align="center">STUDENT INFORMATION SYSTEM</h1>
+    </div>
+    <div class="well">
+     <form class="example"  method="POST">
+       <input type="text" placeholder="Search.." name="search">
+       <button type="submit"><i class="fa fa-search"></i></button>
+     </form>
+    </div>
+
+<div class="well">
+
+      <div class="col md-12">
+      <h1>College List <span><a href="{{ url_for('colleges.addcollege') }}" class=" pull-right"> <ion-icon name="add-circle-outline"></ion-icon> </a></span> </h1>
+   <table class="table table-striped">
+      <tr>
+         <th>College Code</th>
+         <th>College Name</th>
+         <th>Action</th>
+      </tr>
+
+   <tbody>
+   {% for college in data %}
+   <tr>
+      <td>{{college[0]}}</td>
+      <td>{{college[1]}}</td>
+      <td>
+         <span><div class="btn btn-primary btn-edit" data-id="{{college[0]}}"><ion-icon name="create-outline"></ion-icon> </div></span>
+         <div class="btn btn-primary btn-delete" data-id="{{college[0]}}"><ion-icon name="trash-outline"></ion-icon></div>
+      </td>
+   </tr>
+      {% endfor %}
+   </tbody>
+   </table>
+
+
+</div>
+</div>
+
+{%- endblock %}
+{% block scripts%}
+{{super()}}
+<script>
+   var url = "{{ url_for('.deletecollege') }}";
+   var urledit = "{{ url_for('.editcollege') }}"
+</script>
+<script src="{{ url_for('static',filename='js/event.js')}}"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+{% endblock %}

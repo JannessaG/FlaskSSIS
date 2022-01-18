@@ -1,0 +1,51 @@
+{%- extends "layouts/master_layout.html" %}
+
+{# Loads some of the macros included with Flask-Bootstrap. We are using the
+   utils module here to automatically render Flask's flashed messages in a
+   bootstrap friendly manner #}
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block styles %}
+{{super()}}
+ <style>
+      body
+      {
+        background-repeat: :norepeat;
+        background=atatched: fixed;
+        background-size: cover;
+        background-image:url({{url_for('static',filename='images/wp4720655.jpg')}})
+      }
+  </style>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header"> 
+    </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="{{url_for('colleges.maincollege')}}">Colleges</a></li>
+        </ul>
+            
+    </div>
+</nav>
+
+
+<div class="well">
+    <div class="col md-12">
+        <button onclick="window.location.href='/viewcolleges';">Back</button>
+    <div class="left" style="padding-left: 500px; padding-right: 500px">
+    <h1>Add College</h1>
+              <form class="form" method="post" role="form">
+              {{ form.hidden_tag() }}
+              {{ wtf.form_errors(form, hiddens="only") }}
+              {{ wtf.form_field(form.college_code) }}
+              {{ wtf.form_field(form.college_name) }}
+              <input class="btn btn-default" id="submit" name="submit" type="submit" value="Submit">
+            </form>
+            <br>
+        
+         
+            </div>
+</div>
+</div>
+
+{%- endblock %}
