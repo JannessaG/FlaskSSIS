@@ -8,6 +8,7 @@
 {% block styles %}
 {{super()}}
  <style>
+    .control-label {display: none;}
       body
       {
         background-repeat: :norepeat;
@@ -37,7 +38,9 @@
               <form class="form" method="post" role="form">
               {{ form.hidden_tag() }}
               {{ wtf.form_errors(form, hiddens="only") }}
+              <label>College Code</label>
               {{ wtf.form_field(form.college_code) }}
+              <label>College Name</label>
               {{ wtf.form_field(form.college_name) }}
               <input class="btn btn-default" id="submit" name="submit" type="submit" value="Submit">
             </form>

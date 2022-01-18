@@ -2,9 +2,69 @@ from flask import render_template, redirect, request, jsonify
 from app.functions import forms
 from . import students_bp, courses_bp, colleges_bp
 import app.models as models
-from app.functions.forms import CollegeForm
+from app.functions.forms import CourseForm,CollegeForm
 from app import mysql
 
+def fetch_from_table(table_name, column):
+    cursor = mysql.connection.cursor()
+    sql = f"SELECT {column} from {table_name}"
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    return result
+
+@courses_bp.route('/viewcourses', methods=['POST', 'GET'])
+def maincourse():
+    if request.method == 'GET':
+        course = models.Course.allcourse()
+        college = models.College.allcollege()
+        return render_template('course.html', data=course, data1=college)
+
+@courses_bp.route('/viewcourses/add', methods=['POST', 'GET'])
+def addcourse():
+    form = CourseForm()
+    for row in fetch_from_table('colleges', 'collegeCode'):
+        college = str(row[0])
+        form.course_college.choices += [(college, college)]
+    if request.method == 'POST' and form.validate():
+        course = models.Course(course_code=form.course_code.data, course_name=form.course_name.data, course_college=form.course_college.data)
+        course.addcourse()
+        return redirect('/viewcourses')
+    else:
+        return render_template('addCourse.html', form=form, geturl=".addcourse")
+
+@courses_bp.route("/viewcourses/edit", methods=['POST', 'GET'])
+def editcourse():
+    if request.method == 'GET':
+        course_code = request.args.get("id")
+        course = models.Course(course_code=id)
+        courseinfo = course.searchcourse(course_code)
+        form = CourseForm(courseinfo[0][0], courseinfo[0][1], courseinfo[0][2])
+        for row in fetch_from_table('colleges', 'collegeCode'):
+            college = str(row[0])
+            form.course_college.choices += [(college, college)]
+    else:
+        form = CourseForm()
+        for row in fetch_from_table('colleges', 'collegeCode'):
+            college = str(row[0])
+            form.course_college.choices += [(college, college)]
+
+    if request.method == 'POST' and form.validate():
+        course = models.Course(course_code=form.course_code.data, course_name=form.course_name.data, course_college=form.course_college.data)
+        course.editcourse()
+        return redirect('/viewcourses')
+    else:
+        return render_template('editCourse.html', form=form, geturl='.editcourse')
+
+@courses_bp.route("/viewscoursess/delete", methods=["POST"])
+def deletecourse():
+    course_code= request.form['id']
+    if models.Course.deletecourse(course_code):
+        return jsonify(success=True, message="Successfully deleted")
+    else:
+        return jsonify(success=False, message="Failed")
+
+
+#-----------------------------------------------------------------------------------
 @colleges_bp.route('/viewcolleges', methods=['POST', 'GET'])
 def maincollege():
     if request.method == 'GET':

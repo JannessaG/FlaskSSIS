@@ -23,8 +23,8 @@
         <div class="navbar-header"> 
     </div>
         <ul class="nav navbar-nav">
-
-            <li class="active"><a href="{{url_for('colleges.maincollege')}}">Colleges</a></li>
+            <li class="active"><a href="{{url_for('courses.maincourse')}}">Courses</a></li>
+            <li><a href="{{url_for('colleges.maincollege')}}">Colleges</a></li>
         </ul>
             
     </div>
@@ -32,16 +32,19 @@
 
 <div class="well">
     <div class="col md-12">
-<button onclick="window.location.href='/viewcolleges';">Back</button>
+<button onclick="window.location.href='/viewcourses';">Back</button>
 <div class="center" style="padding-left: 500px; padding-right: 500px">
-    <h1>Edit College</h1>
+    <h1>Edit Course</h1>
               <form class="form" method="post" role="form">
               {{ form.hidden_tag() }}
               {{ wtf.form_errors(form, hiddens="only") }}
-              <label>College Code</label>
-              {{ wtf.form_field(form.college_code) }}
-              <label>College Name</label>
-              {{ wtf.form_field(form.college_name) }}
+              <label>Course Code</label>
+              {{ wtf.form_field(form.course_code) }}
+              <label>Course Name</label>
+              {{ wtf.form_field(form.course_name) }}
+              <label>College</label>
+              {{ wtf.form_field(form.course_college) }}
+
               <input class="btn btn-default" id="submit" name="submit" type="submit" value="Submit">
             </form>
             </div>

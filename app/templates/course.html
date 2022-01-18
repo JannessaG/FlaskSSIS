@@ -7,6 +7,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
 {{super()}}
+
  <style>
       body
       {
@@ -22,14 +23,14 @@
           <div class="navbar-header"> 
         </div>
               <ul class="nav navbar-nav">
-                <li><a href="{{url_for('courses.maincourse')}}">Courses</a></li>
-                <li class="active"><a href="{{url_for('colleges.maincollege')}}">Colleges</a></li>
+                <li class="active"><a href="{{url_for('courses.maincourse')}}">Courses</a></li>
+                <li><a href="{{url_for('colleges.maincollege')}}">Colleges</a></li>
               </ul>
             
         </div>
       </nav>
 
-      <div class="container">
+   <div class="container">
     <div class="well">
     <h1 align="center">STUDENT INFORMATION SYSTEM</h1>
     </div>
@@ -42,23 +43,34 @@
 
 <div class="well">
 
-      <div class="col md-12">
-      <h1>College List <span><a href="{{ url_for('colleges.addcollege') }}" class=" pull-right"> <ion-icon name="add-circle-outline"></ion-icon> </a></span> </h1>
+
+<div class="col md-12">
+   <h1>Course List <span><a href="{{ url_for('courses.addcourse') }}" class=" pull-right"> <ion-icon name="add-circle-outline"></ion-icon> </a></span> </h1>
+<div class="table-responsive">
    <table class="table table-striped">
+
       <tr>
+         <th>Couse Code</th>
+         <th>Course Name</th>
          <th>College Code</th>
          <th>College Name</th>
          <th>Action</th>
       </tr>
 
    <tbody>
-   {% for college in data %}
+   {% for course in data %}
    <tr>
-      <td>{{college[0]}}</td>
-      <td>{{college[1]}}</td>
+      <td>{{course[0]}}</td>
+      <td>{{course[1]}}</td>
+      <td>{{course[2]}}</td>
+       {% for college in data1 %}
+       {% if course.2 == college.0 or course.2 == college.1%}
+       <td>{{college.1}}</td>
+        {% endif %}
+        {% endfor %}
       <td>
-         <span><div class="btn btn-primary btn-edit" data-id="{{college[0]}}"><ion-icon name="create-outline"></ion-icon> </div></span>
-         <div class="btn btn-primary btn-delete" data-id="{{college[0]}}"><ion-icon name="trash-outline"></ion-icon></div>
+         <span><div class="btn btn-primary btn-edit" data-id="{{course[0]}}"><ion-icon name="create-outline"></ion-icon> </div></span>
+         <div class="btn btn-primary btn-delete" data-id="{{course[0]}}"><ion-icon name="trash-outline"></ion-icon></div>
       </td>
    </tr>
       {% endfor %}
@@ -68,13 +80,14 @@
 
 </div>
 </div>
+</div>
 
 {%- endblock %}
 {% block scripts%}
 {{super()}}
 <script>
-   var url = "{{ url_for('.deletecollege') }}";
-   var urledit = "{{ url_for('.editcollege') }}"
+   var url = "{{ url_for('.deletecourse') }}";
+   var urledit = "{{ url_for('.editcourse') }}"
 </script>
 <script src="{{ url_for('static',filename='js/event.js')}}"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
