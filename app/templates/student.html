@@ -23,8 +23,8 @@
           <div class="navbar-header"> 
         </div>
               <ul class="nav navbar-nav">
-                <li><a href="{{url_for('students.mainstudent')}}">Students</a></li>
-                <li class="active"><a href="{{url_for('courses.maincourse')}}">Courses</a></li>
+               <li class="active"><a href="{{url_for('students.mainstudent')}}">Students</a></li>
+                <li><a href="{{url_for('courses.maincourse')}}">Courses</a></li>
                 <li><a href="{{url_for('colleges.maincollege')}}">Colleges</a></li>
               </ul>
             
@@ -44,34 +44,48 @@
 
 <div class="well">
 
-
-<div class="col md-12">
-   <h1>Course List <span><a href="{{ url_for('courses.addcourse') }}" class=" pull-right"> <ion-icon name="add-circle-outline"></ion-icon> </a></span> </h1>
-<div class="table-responsive">
-   <table class="table table-striped">
+      <h1>Student List <span><a href="{{ url_for('students.addstudent') }}" class=" pull-right"> <ion-icon name="add-circle-outline"></ion-icon> </a></span> </h1>
+   <div class="table-responsive">
+      <table class="table table-striped">
 
       <tr>
-         <th>Couse Code</th>
-         <th>Course Name</th>
-         <th>College Code</th>
-         <th>College Name</th>
+         <th>Profile</th>
+         <th>Id</th>
+         <th>First Name</th>
+         <th>Last Name</th>
+         <th>Code</th>
+         <th>Course </th>
+         <th>Code</th>
+         <th>College </th>
+         <th>Year</th>
+         <th>Gender</th>
          <th>Action</th>
       </tr>
 
    <tbody>
-   {% for course in data %}
+   {% for students in data %}
    <tr>
-      <td>{{course[0]}}</td>
-      <td>{{course[1]}}</td>
-      <td>{{course[2]}}</td>
-       {% for college in data1 %}
-       {% if course.2 == college.0 or course.2 == college.1%}
-       <td>{{college.1}}</td>
-        {% endif %}
+      <td><img src="{{students[6]}}" style="width:100px;height:50px;"></td>
+      <td>{{students[0]}}</td>
+      <td>{{students[1]}}</td>
+      <td>{{students[2]}}</td>
+      <td>{{students[3]}}</td>
+      {% for course in data1 %}
+         {% if students.3 == course.0 or students.3 == course.1%}
+         <td>{{course[1]}}</td>
+         <td>{{course[2]}}</td>
+            {% for college in data2 %}
+               {% if course.2 == college.0 or course.2 == college.1%}
+                  <td>{{college[1]}}</td>
+               {% endif %}
+               {% endfor %}
+           {% endif %}
         {% endfor %}
+      <td>{{students[4]}}</td>
+      <td>{{students[5]}}</td>
       <td>
-         <span><div class="btn btn-primary btn-edit" data-id="{{course[0]}}"><ion-icon name="create-outline"></ion-icon> </div></span>
-         <div class="btn btn-primary btn-delete" data-id="{{course[0]}}"><ion-icon name="trash-outline"></ion-icon></div>
+         <span><div class="btn btn-primary btn-edit" data-id="{{students[0]}}" ><ion-icon name="create-outline"></ion-icon> </div></span>
+         <div class="btn btn-primary btn-delete" data-id="{{students[0]}}"><ion-icon name="trash-outline"></ion-icon></div>
       </td>
    </tr>
       {% endfor %}
@@ -81,14 +95,14 @@
 
 </div>
 </div>
-</div>
 
 {%- endblock %}
 {% block scripts%}
 {{super()}}
 <script>
-   var url = "{{ url_for('.deletecourse') }}";
-   var urledit = "{{ url_for('.editcourse') }}"
+   var url = "{{ url_for('.deletestudent') }}";
+   var urledit = "{{ url_for('.editstudent') }}"
+
 </script>
 <script src="{{ url_for('static',filename='js/event.js')}}"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

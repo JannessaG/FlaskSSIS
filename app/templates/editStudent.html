@@ -23,8 +23,8 @@
           <div class="navbar-header"> 
         </div>
               <ul class="nav navbar-nav">
-                <li><a href="{{url_for('students.mainstudent')}}">Students</a></li>
-                <li class="active"><a href="{{url_for('courses.maincourse')}}">Courses</a></li>
+                <li class="active"><a href="{{url_for('students.mainstudent')}}">Students</a></li>
+                <li><a href="{{url_for('courses.maincourse')}}">Courses</a></li>
                 <li><a href="{{url_for('colleges.maincollege')}}">Colleges</a></li>
               </ul>
             
@@ -33,18 +33,26 @@
 
 <div class="well">
     <div class="col md-12">
-<button onclick="window.location.href='/viewcourses';">Back</button>
+<button onclick="window.location.href='/viewstudents';">Back</button>
 <div class="center" style="padding-left: 500px; padding-right: 500px">
-    <h1>Edit Course</h1>
-              <form class="form" method="post" role="form">
+    <h1>Edit Student</h1>
+              <form class="form" method="post" enctype=multipart/form-data role="form">
               {{ form.hidden_tag() }}
               {{ wtf.form_errors(form, hiddens="only") }}
-              <label>Course Code</label>
-              {{ wtf.form_field(form.course_code) }}
-              <label>Course Name</label>
-              {{ wtf.form_field(form.course_name) }}
-              <label>College</label>
-              {{ wtf.form_field(form.course_college) }}
+              <label>Student ID</label>
+              {{ wtf.form_field(form.id) }}
+              <label>First Name</label>
+              {{ wtf.form_field(form.first) }}
+              <label>Last Name</label>
+              {{ wtf.form_field(form.last) }}
+              <label>Course</label>
+              {{ wtf.form_field(form.course) }}
+              <label>Year level</label>
+              {{ wtf.form_field(form.year) }}
+              <label>Gender</label>
+              {{ wtf.form_field(form.gender) }}
+              <label>Change Profile</label>
+              {{ wtf.form_field(form.upload) }}
 
               <input class="btn btn-default" id="submit" name="submit" type="submit" value="Submit">
             </form>
