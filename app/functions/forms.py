@@ -3,6 +3,16 @@ from wtforms import StringField, SubmitField, validators
 from flask_wtf.file import FileField, FileAllowed
 from wtforms.fields.core import SelectField
 
+class SearchForm(FlaskForm):
+    search = StringField("", [])
+    submit = SubmitField("Submit")
+
+    def __init__(self, search = None):
+        super().__init__()
+        if search:
+            self.search.default = search
+            self.process()
+
 class StudentForm(FlaskForm):
     id = StringField ("stud_id", [validators.DataRequired(),validators.Regexp("\d\d\d\d-\d\d\d\d")])
     first = StringField ("firstName", [validators.DataRequired()])

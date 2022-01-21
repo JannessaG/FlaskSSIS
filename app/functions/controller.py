@@ -2,7 +2,7 @@ from flask import render_template, redirect, request, jsonify
 from app.functions import forms
 from . import students_bp, courses_bp, colleges_bp
 import app.models as models
-from app.functions.forms import StudentForm,CourseForm,CollegeForm
+from app.functions.forms import StudentForm,CourseForm,CollegeForm,SearchForm
 from app import mysql
 import cloudinary
 import cloudinary.api
@@ -29,7 +29,21 @@ def mainstudent():
         students = models.Student.allstudent()
         course = models.Course.allcourse()
         college = models.College.allcollege()
-        return render_template('student.html', data=students,data1=course,data2=college, geturl='.mainstudent')
+        form = SearchForm(request.form)
+        return render_template('student.html', data=students,data1=course,data2=college,form=form, geturl='.mainstudent')
+    if request.method == 'POST':
+        form = SearchForm(request.form["search"])
+        students = models.Student.allstudent()
+        course = models.Course.allcourse()
+        college = models.College.allcollege()
+        final = []
+        final1=[]
+        for data in students:
+            for row in data:
+                if form.search.data.lower() in row.lower():
+                    final.append(data)
+                    break
+        return render_template('student.html', data=final,data1=course,data2=college, form=form)
 
 @students_bp.route('/viewstudents/add', methods=['POST', 'GET'])
 def addstudent():
@@ -98,7 +112,19 @@ def maincourse():
     if request.method == 'GET':
         course = models.Course.allcourse()
         college = models.College.allcollege()
-        return render_template('course.html', data=course, data1=college)
+        form = SearchForm(request.form)
+        return render_template('course.html', data=course,form=form, data1=college)
+    if request.method == 'POST':
+        form = SearchForm(request.form["search"])
+        course = models.Course.allcourse()
+        college = models.College.allcollege()
+        final = []
+        for data in course:
+            for row in data:
+                if form.search.data.lower() in row.lower():
+                    final.append(data)
+                    break
+        return render_template('course.html', data=final,data1=college, form=form)
 
 @courses_bp.route('/viewcourses/add', methods=['POST', 'GET'])
 def addcourse():
@@ -150,17 +176,26 @@ def deletecourse():
 def maincollege():
     if request.method == 'GET':
         college = models.College.allcollege()
-        print(college)
-        return render_template('college.html', data=college)
+        form = SearchForm(request.form)
+        return render_template('college.html', data=college,form=form)
+    if request.method == 'POST':
+        form = SearchForm(request.form["search"])
+        college = models.College.allcollege()
+        final = []
+        for data in college:
+            for row in data:
+                if form.search.data.lower() in row.lower():
+                    final.append(data)
+                    break
+        return render_template('college.html', data=final, form=form)
+
 
 @colleges_bp.route('/viewcolleges/add', methods=['POST', 'GET'])
 def addcollege():
     form = CollegeForm()
 
     if request.method == 'POST' and form.validate():
-        print("in")
         college = models.College(college_code=form.college_code.data, college_name=form.college_name.data)
-        print(college)
         college.addcollege()
         return redirect('/viewcolleges')
     else:
@@ -173,14 +208,12 @@ def editcollege():
         college = models.College(college_code=id)
         collegeinfo = college.searchcollege(college_code)
         form = CollegeForm(collegeinfo[0][0], collegeinfo[0][1])
-        print(form, "collegeeditform")
 
     else:
         form = CollegeForm()
 
     if request.method == 'POST' and form.validate():
         college = models.College(college_code=form.college_code.data, college_name=form.college_name.data)
-        print(college, "College Edit")
         college.editcollege()
         return redirect('/viewcolleges')
     else:
@@ -189,7 +222,6 @@ def editcollege():
 @colleges_bp.route("/viewcolleges/delete", methods=["POST"])
 def deletecollege():
     college_code = request.form['id']
-    print(college_code, "Delete ID")
     if models.College.deletecollege(college_code):
         return jsonify(success=True, message="Successfully deleted")
     else:

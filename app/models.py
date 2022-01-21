@@ -94,7 +94,7 @@ class Course(object):
     def allcourse(cls):
         cursor = mysql.connection.cursor()
 
-        sql = "SELECT * from courses"
+        sql = "SELECT * from courses "
         cursor.execute(sql)
         result = cursor.fetchall()
         return result

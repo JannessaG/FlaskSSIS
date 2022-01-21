@@ -36,10 +36,16 @@
     <h1 align="center">STUDENT INFORMATION SYSTEM</h1>
     </div>
     <div class="well">
-     <form class="example"  method="POST">
-       <input type="text" placeholder="Search.." name="search">
-       <button type="submit"><i class="fa fa-search"></i></button>
-     </form>
+        <form class="form" method="post" role="form">
+            <div style="padding-left: 20px; padding-top: 20px; padding-bottom: 20px;">
+                {{ form.hidden_tag() }}
+            <span>
+                {{ wtf.form_errors(form, hiddens="only") }}
+                {{ wtf.form_field(form.search, placeholder="Search..",style='width:950px;height:50px')}}<button class="btn btn-default mybutton"><i class="fa fa-search"></i>
+                 </button>
+                 </span>
+                 </div>
+   </form>
     </div>
 
 <div class="well">

@@ -36,7 +36,16 @@ form.example button {
   border-left: none; /* Prevent double borders */
   cursor: pointer;
 }
+.mybutton{
 
+        top:28.7%;
+       left:74%;
+       width:100px;
+       height:44px;
+       position: absolute;
+       z-index: 2;
+       background:#337ab7; 
+}
 /* Clear floats */
 form.example::after {
   content: "";
