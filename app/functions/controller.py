@@ -21,7 +21,8 @@ def main():
         students = models.Student.allstudent()
         course = models.Course.allcourse()
         college = models.College.allcollege()
-        return render_template('student.html', data=students,data1=course,data2=college, geturl='.main')
+        form = SearchForm(request.form)
+        return render_template('student.html', data=students,data1=course,data2=college,form=form, geturl='.main')
 
 @students_bp.route('/viewstudents', methods=['POST', 'GET'])
 def mainstudent():
